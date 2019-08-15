@@ -78,6 +78,7 @@ class LogisticRegression:
         print(accuracy)
         return accuracy
 
+
 if __name__ == '__main__':
     t = time.time()
 

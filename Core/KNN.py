@@ -2,6 +2,7 @@ import numpy as np
 import Data as d
 import time
 
+
 class KNN:
     def __init__(self, train, test, train_label, test_label, test_size = 200, k = 25):
         self.train = np.array(train)
@@ -12,7 +13,8 @@ class KNN:
         self.k = k
         self.test_size = test_size
 
-    def calculate_distance(self, x1, x2):
+    @staticmethod
+    def calculate_distance(x1, x2):
         return np.sqrt(np.sum(np.square(x1 - x2)))
 
     def get_closest(self, x):
