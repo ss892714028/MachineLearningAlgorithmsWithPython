@@ -18,6 +18,7 @@ class Kmeans:
         data = self.test
         # randomly pick k number of data as initial centroids
         indx = np.random.randint(data.shape[0], size=self.k)
+
         centroid = data[indx,:]
         return centroid
 
@@ -28,7 +29,6 @@ class Kmeans:
         cluster = np.zeros(data.shape[0])
         previous_centroid = np.zeros(centroid.shape)
         check = 1
-
         # Stop when old centroid == new centroid
         # or reach maximum iteration
         iterator = 0
@@ -45,22 +45,43 @@ class Kmeans:
                 # record data[i]'s closest centroid
                 cluster[i] = cluster_num
             # iterate through every centroid
+            print([i in cluster for i in range(10)])
             for i in range(self.k):
                 # for each cluster, recalculate centroid position based on
                 # the mean value of data in that cluster
-                centroid[i] = np.mean([value for index, value in enumerate(data) if cluster[index] == i])
+                temp = [data[j] for j in range(data.shape[0]) if cluster[j] == i]
+                if not temp:
+                    print('aaa')
+                    centroid[i] = np.zeros(data.shape[1])
+
+                else:
+                    centroid[i] = np.mean(temp)
+
                 # record the distance between new centroid and old centroid
             check = self.distance(centroid, previous_centroid)
             iterator += 1
             print('current difference: {}'.format(check))
 
-        result = [data[i] for i, j in zip(range(data.shape[0]), range(self.k)) if j == i]
+        result = []
+        for i in range(self.k):
+            result.append([data[j] for j in range(data.shape[0]) if cluster[j] == i])
         return result
 
 
 if __name__ == '__main__':
     test_data, test_label = d.loadData(r'C:\Users\Stan\PycharmProjects\MachineLearningAlgorithms\Data\mnist_test.csv')
-    k = Kmeans(test_data,k = 4)
+    k = Kmeans(test_data,k = 10)
     results = k.k_means()
-
+    dict = {}
+    for i in range(len(test_label)):
+        dict[tuple(test_data[i])] = test_label[i]
+    result = []
+    for i in results:
+        temp = []
+        for j in i:
+            temp.append(dict[tuple(j)])
+        result.append(temp)
+    print(np.array([sorted(i) for i in result]))
+    for i in result:
+        print([list(i).count(j) for j in range(10)])
 
