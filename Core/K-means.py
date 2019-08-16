@@ -10,9 +10,9 @@ class Kmeans:
         self.max_iteration = max_iteration
 
     @staticmethod
-    def distance(x1, x2):
+    def distance(x1, x2, axis=1):
         # L2 distance
-        return np.sqrt(np.sum(np.square(x1 - x2)))
+        return np.linalg.norm(x1 - x2,axis = axis)
 
     def get_centroid(self):
         data = self.test
@@ -26,45 +26,41 @@ class Kmeans:
         data = self.test
         # Randomly Initialize k Centroids
         centroid = self.get_centroid()
-        cluster = np.zeros(data.shape[0])
+        cluster_assignment = np.zeros(data.shape[0])
         previous_centroid = np.zeros(centroid.shape)
-        check = 1
+        check = self.distance(centroid, previous_centroid, axis=None)
+
         # Stop when old centroid == new centroid
         # or reach maximum iteration
         iterator = 0
         while check != 0 and iterator < self.max_iteration:
             for i in range(data.shape[0]):
-                distances = []
                 # get distances between data[i] and each centroid
-                for j in range(centroid.shape[0]):
-                    distances.append(self.distance(centroid[j], data[i]))
+                distances = self.distance(data[i], centroid, axis=1)
                 # record the previous centroid
-                previous_centroid = copy.deepcopy(centroid)
+
                 # select the closest centroid
                 cluster_num = np.argmin(np.array(distances))
                 # record data[i]'s closest centroid
-                cluster[i] = cluster_num
+                cluster_assignment[i] = cluster_num
+
+            # record the previous centroid
+            previous_centroid = copy.deepcopy(centroid)
             # iterate through every centroid
-            print([i in cluster for i in range(10)])
             for i in range(self.k):
                 # for each cluster, recalculate centroid position based on
                 # the mean value of data in that cluster
-                temp = [data[j] for j in range(data.shape[0]) if cluster[j] == i]
-                if not temp:
-                    print('aaa')
-                    centroid[i] = np.zeros(data.shape[1])
 
-                else:
-                    centroid[i] = np.mean(temp)
+                centroid[i] = np.mean([data[j] for j in range(data.shape[0]) if cluster_assignment[j] == i], axis=0)
 
                 # record the distance between new centroid and old centroid
-            check = self.distance(centroid, previous_centroid)
+            check = self.distance(centroid, previous_centroid, axis=None)
             iterator += 1
             print('current difference: {}'.format(check))
 
         result = []
         for i in range(self.k):
-            result.append([data[j] for j in range(data.shape[0]) if cluster[j] == i])
+            result.append([data[j] for j in range(data.shape[0]) if cluster_assignment[j] == i])
         return result
 
 
@@ -83,5 +79,19 @@ if __name__ == '__main__':
         result.append(temp)
     print(np.array([sorted(i) for i in result]))
     for i in result:
+        # print occurance of each class in each cluster
+
         print([list(i).count(j) for j in range(10)])
 
+#############
+# output
+# [1, 1101, 126, 50, 27, 80, 37, 79, 67, 28]
+# [728, 0, 13, 0, 1, 5, 20, 1, 7, 6]
+# [13, 3, 19, 1, 17, 7, 651, 0, 6, 4]
+# [6, 4, 31, 125, 1, 153, 2, 4, 632, 16]
+# [177, 0, 24, 58, 29, 258, 224, 1, 73, 6]
+# [48, 3, 44, 717, 0, 284, 4, 0, 110, 8]
+# [3, 0, 18, 16, 436, 43, 10, 172, 19, 427]
+# [3, 24, 735, 34, 0, 2, 5, 17, 11, 2]
+# [0, 0, 5, 4, 471, 56, 5, 45, 40, 484]
+# [1, 0, 17, 5, 0, 4, 0, 709, 9, 28]
