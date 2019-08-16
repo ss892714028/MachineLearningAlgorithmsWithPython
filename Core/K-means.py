@@ -52,7 +52,7 @@ class Kmeans:
                 # record the distance between new centroid and old centroid
             check = self.distance(centroid, previous_centroid)
             iterator += 1
-            print('current loss: {}'.format(check))
+            print('current difference: {}'.format(check))
 
         result = [data[i] for i, j in zip(range(data.shape[0]), range(self.k)) if j == i]
         return result
