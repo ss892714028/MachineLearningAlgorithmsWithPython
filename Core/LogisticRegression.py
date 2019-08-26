@@ -41,7 +41,7 @@ class LogisticRegression:
         weights = np.zeros(train.shape[1])
         # epochs
         for i in range(self.iteration):
-            print(i)
+            print('iteration number: {} out of {}'.format(i,self.iteration))
             # Iterate training set
             for j in range(train.shape[0]):
                 y = label[j]
