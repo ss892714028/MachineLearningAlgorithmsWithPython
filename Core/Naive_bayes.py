@@ -23,6 +23,11 @@ class NaiveBayes:
         prob = []*0
         for index, value in enumerate(counter.keys()):
             prob[index] = counter[value] / len(label)
+        total_prob = np.zeros([len(self.c), data.shape[1], 2])
+
+
+
+
 
 
 
