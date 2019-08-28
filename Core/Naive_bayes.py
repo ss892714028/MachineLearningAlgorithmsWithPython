@@ -2,8 +2,13 @@ import numpy as np
 import Data as d
 import time
 
+
 class NaiveBayes:
     def __init__(self, train, test, train_label, test_label):
+
+        self.max_value = np.max(np.array(train).flatten())
+        self.bin = 5
+
         self.train = self.pre_process(np.array(train))
         self.test = self.pre_process(np.array(test))
         self.train_label = train_label
@@ -11,11 +16,27 @@ class NaiveBayes:
         self.c = sorted(list(set(self.test_label)))
         self.l = 1
 
-    @staticmethod
-    def pre_process(data):
+    # def pre_process(self, data):
+    #     d = []
+    #     for sample in data:
+    #         d.append([0 if i < self.break_point else 1 for i in sample])
+    #     return np.array(d)
+
+    def pre_process(self, data):
+        dict = {}
+        interval = self.max_value/self.bin
+        for i in range(self.bin+1):
+            dict[i] = i * interval
         d = []
-        for sample in data:
-            d.append([0 if i < 128 else 1 for i in sample])
+        for index, sample in enumerate(data):
+            if index%1000 == 999:
+                print(index)
+            for value in sample:
+                temp = []
+                for i in range(self.bin+1):
+                    if dict[i] <= int(value) < dict[i] + interval:
+                        temp.append(i)
+                d.append(temp)
         return np.array(d)
 
     def calculate_prob(self):
@@ -39,7 +60,7 @@ class NaiveBayes:
             prob[index] = (counter[value] + self.l) / (len(train_label) + len(self.c) * self.l)
         prob = np.log(prob)
         # calculate conditional probability p(x=x|y=y)
-        # first store all occurances of (label,sample,feature)
+        # first store all occurances of (label,feature_index,feature_value)
         total_prob = np.zeros([len(self.c), data.shape[1], 2])
         # iterate the whole dataset
         for index, sample in enumerate(data):
@@ -77,10 +98,11 @@ class NaiveBayes:
     def t(self):
         test, test_label = self.test, self.test_label
         errors = 0
-        print('Calculating Probability...')
+        print('Calculating Probability P(Y=Yk)...')
         prob, total_prob = self.calculate_prob()
         for i in range(len(test)):
-            print('Predicting test number: {}'.format(i))
+            if i%1000 == 999:
+                print('Predicting test number: {}'.format(i))
             prediction = self.model(prob, total_prob, test[i])
             if prediction != test_label[i]:
                 errors += 1
@@ -92,6 +114,7 @@ class NaiveBayes:
 
 if __name__ == '__main__':
     t = time.time()
+
     print('Loading data...')
     train_data, train_label = d.loadData(r'C:\Users\Stan\PycharmProjects\MachineLearningAlgorithms\Data\mnist_train.csv')
     test_data, test_label = d.loadData(r'C:\Users\Stan\PycharmProjects\MachineLearningAlgorithms\Data\mnist_test.csv')
