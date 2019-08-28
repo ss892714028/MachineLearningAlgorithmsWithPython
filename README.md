@@ -7,7 +7,7 @@ Accuracy is adequate, performance is not optimized, made only for self learning 
 ### K-Nearest-Neighbor - Done
 ### SVM - ToDo
 ### DecisionTree - ToDo
-### NaiveBayes - ToDo
+### NaiveBayes - Done
 ### AdaBoost - ToDo
 
 ## Unsupervised learning
