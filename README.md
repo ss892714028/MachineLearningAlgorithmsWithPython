@@ -13,3 +13,4 @@ Accuracy is adequate, performance is not optimized, made only for self learning 
 ## Unsupervised learning
 ### K-means - Done
 ### Gaussian Mixture Model - ToDo
+### PCA - ToDo
