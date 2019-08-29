@@ -4,41 +4,52 @@ import time
 
 
 class NaiveBayes:
-    def __init__(self, train, test, train_label, test_label, bin):
+    def __init__(self, train, test, train_label, test_label, continuous=True, bin=5):
+        """
+
+        :param train: training data
+        :param test: testing data
+        :param train_label: training label
+        :param test_label: testing label
+        :param continuous: if the data is continuous, needs to preprocess
+        :param bin: if continuous, specify how many bins are desired
+        """
 
         self.max_value = np.max(np.array(train).flatten())
         self.bin = bin
-
-        self.train = self.pre_process(np.array(train))
-        self.test = self.pre_process(np.array(test))
+        if continuous:
+            self.train = self.pre_process(np.array(train))
+            self.test = self.pre_process(np.array(test))
+        else:
+            self.train = np.array(train)
+            self.test = np.array(test)
         self.train_label = train_label
         self.test_label = test_label
         self.c = sorted(list(set(self.test_label)))
         self.l = 1
 
-    # def pre_process(self, data):
-    #     d = []
-    #     for sample in data:
-    #         d.append([0 if i < self.break_point else 1 for i in sample])
-    #     return np.array(d)
-
     def pre_process(self, data):
+        # Because naive bayes is designed for discrete features,
+        # if data is continuous, discretize it using pre_process method.
         dict = {}
         interval = self.max_value/self.bin
+        # create a dictionary to store bin# and cutoff point
         for i in range(self.bin+1):
             dict[i] = i * interval
         d = []
-        print(interval)
-        print(dict)
-
+        # iterate through every element in the dataset
+        # same as for index in range(data.flatten())
+        dimension = data.shape[0]
         for index, sample in enumerate(data):
             if index%1000 == 999:
-                print(index)
+                print('Pre-processing data sample {}: out of {}'.format(index, dimension))
             temp = []
             for value in sample:
-
+                # iterate through each potential bin
                 for i in dict.keys():
+                    # check whether the element belongs to that bin
                     if dict[i] <= int(value) < (dict[i] + interval):
+                        # if yes, return the bin number
                         temp.append(i)
             d.append(temp)
         return np.array(d)
@@ -85,6 +96,7 @@ class NaiveBayes:
                     pxy.append(total_prob[i][j][k])
 
                 for k in range(len(pxy)):
+                    # calculate probability with Laplacian smoothing
                     total_prob[i][j][k] = np.log(pxy[k] + self.l) / (sum(pxy) + len(self.c) * self.l)
 
         return prob, total_prob
