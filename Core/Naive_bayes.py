@@ -4,10 +4,10 @@ import time
 
 
 class NaiveBayes:
-    def __init__(self, train, test, train_label, test_label):
+    def __init__(self, train, test, train_label, test_label, bin):
 
         self.max_value = np.max(np.array(train).flatten())
-        self.bin = 5
+        self.bin = bin
 
         self.train = self.pre_process(np.array(train))
         self.test = self.pre_process(np.array(test))
@@ -28,15 +28,19 @@ class NaiveBayes:
         for i in range(self.bin+1):
             dict[i] = i * interval
         d = []
+        print(interval)
+        print(dict)
+
         for index, sample in enumerate(data):
             if index%1000 == 999:
                 print(index)
+            temp = []
             for value in sample:
-                temp = []
-                for i in range(self.bin+1):
-                    if dict[i] <= int(value) < dict[i] + interval:
+
+                for i in dict.keys():
+                    if dict[i] <= int(value) < (dict[i] + interval):
                         temp.append(i)
-                d.append(temp)
+            d.append(temp)
         return np.array(d)
 
     def calculate_prob(self):
@@ -61,7 +65,7 @@ class NaiveBayes:
         prob = np.log(prob)
         # calculate conditional probability p(x=x|y=y)
         # first store all occurances of (label,feature_index,feature_value)
-        total_prob = np.zeros([len(self.c), data.shape[1], 2])
+        total_prob = np.zeros([len(self.c), data.shape[1], self.bin+1])
         # iterate the whole dataset
         for index, sample in enumerate(data):
             label = train_label[index]
@@ -119,7 +123,7 @@ if __name__ == '__main__':
     train_data, train_label = d.loadData(r'C:\Users\Stan\PycharmProjects\MachineLearningAlgorithms\Data\mnist_train.csv')
     test_data, test_label = d.loadData(r'C:\Users\Stan\PycharmProjects\MachineLearningAlgorithms\Data\mnist_test.csv')
 
-    classifier = NaiveBayes(train_data,test_data,train_label,test_label)
+    classifier = NaiveBayes(train_data,test_data,train_label,test_label,bin=5)
     classifier.t()
     print('time ultilized: {}'.format(time.time()-t))
 
