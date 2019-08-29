@@ -6,6 +6,15 @@ import time
 class LogisticRegression:
     def __init__(self, train, test, train_label, test_label, step_size = 0.001,
                  iteration = 200):
+        """
+
+        :param train: training data
+        :param test: testing data
+        :param train_label: training label
+        :param test_label: testing label
+        :param step_size: step size of the gradient ascend method
+        :param iteration: number of iteration of the gradient ascend method
+        """
         self.train = np.array(train)
         self.test = np.array(test)
         self.train_label = self.binary_label(np.array(train_label))
