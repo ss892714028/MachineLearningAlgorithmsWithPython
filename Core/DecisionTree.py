@@ -54,9 +54,9 @@ class DecisionTree:
             d.append(temp)
         return np.array(d)
 
-    def calculate_entropy(self):
-        train = self.train
-        label = self.train_label
+    def calculate_entropy(self, trainData, trainLabel):
+        train = trainData
+        label = trainLabel
         H_dict = {}
         for i in range(label.shape[0]):
             if label[i] not in H_dict:
@@ -103,29 +103,57 @@ class DecisionTree:
         """
         return -np.sum([i * np.log2(i) if i != 0 else 0 for i in p])
 
-    def calculate_information_gain(self):
-        H_D, H_D_A = self.calculate_entropy()
+    def calculate_information_gain(self, trainData, trainLabel):
+        H_D, H_D_A = self.calculate_entropy(trainData, trainLabel)
         return [H_D-i for i in H_D_A]
 
-    def find_max_gain(self):
-        temp = self.calculate_information_gain()
+    def find_max_gain(self, trainData, trainLabel):
+        temp = self.calculate_information_gain(trainData, trainLabel)
         # return max information gain and max feature index
-        return np.max(temp), temp.index(np.max(temp))
+        return temp.index(np.max(temp)), np.max(temp)
 
     @staticmethod
     def trim_data(data, label, index, value):
         new_data = []
         new_label = []
+        print(np.array(data).shape)
         for i in range(len(data)):
             if data[i][index] == value:
-                new_data.append(data[i][0:index] + data[i][index + 1:])
+                new_data.append(data[i][0:index] + data[i][index+1:])
                 new_label.append(label[i])
         return new_data, new_label
 
-    def tree(self):
-        data = (self.train, self.train_label)
+    @staticmethod
+    def find_class(label):
+        classDict = {}
+        for i in label:
+            if i in classDict.keys():
+                classDict[i] += 1
+            else:
+                classDict[i] = 1
+        return classDict
 
-    def
+    def build_tree(self, *data):
+        trainData = np.array(data[0][0])
+        trainLabel = np.array(data[0][1])
+        print(trainData.shape)
+
+        classDict = {i for i in trainLabel}
+        if len(classDict) == 1:
+            return trainLabel[0]
+        if len(trainData[0]) == 0:
+            return self.find_class(trainLabel)
+        print('build node', len(trainData[0]), len(trainLabel))
+        A, e = self.find_max_gain(trainData, trainLabel)
+        print(A)
+        if e < self.epsilon:
+            return self.find_class(trainLabel)
+        treeDict = {A:{}}
+        treeDict[A][0] = self.build_tree(self.trim_data(list(trainData),list(trainLabel), A, 0))
+        treeDict[A][1] = self.build_tree(self.trim_data(list(trainData),list(trainLabel), A, 1))
+
+        return treeDict
+
 
 if __name__ == '__main__':
     t = time.time()
@@ -136,7 +164,6 @@ if __name__ == '__main__':
     data = []
     for i in train_data:
         data.append([int(int(num) > 128) for num in i])
-
     classifier = DecisionTree(data,test_data,train_label,test_label,bin=2,continuous=False)
-    classifier.calculate_entropy()
+    classifier.build_tree((train_data, train_label))
     print('time ultilized: {}'.format(time.time()-t))
