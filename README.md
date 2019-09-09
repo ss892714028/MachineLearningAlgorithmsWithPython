@@ -9,6 +9,7 @@ Performance is not optimized, made only for self learning and educational purpos
 ### DecisionTree - ToDo
 ### NaiveBayes - Done
 ### AdaBoost - ToDo
+### Perceptron - Done
 
 ## Unsupervised learning
 ### K-means - Done
