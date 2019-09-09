@@ -7,7 +7,7 @@ Performance is not optimized, made only for self learning and educational purpos
 ### [Perceptron](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/Perceptron.py) - Done
 ### [Logistic Regression](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/LogisticRegression.py) - Done
 ### [K-Nearest-Neighbor](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/KNN.py) - Done
-### [NaiveBayes] - Done
+### [NaiveBayes](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/Naive_bayes.py) - Done
 ### [DecisionTree](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/DecisionTree.py) - In Progress
 ### AdaBoost - ToDo
 ### SVM - ToDo
