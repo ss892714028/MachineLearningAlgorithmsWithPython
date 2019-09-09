@@ -15,7 +15,9 @@ class KNN:
 
     @staticmethod
     def calculate_distance(x1, x2):
-        return np.sqrt(np.sum(np.square(x1 - x2)))
+        # return np.sqrt(np.sum(np.square(x1 - x2)))
+        # use numpy built in function for speed
+        return np.linalg.norm(x2 - x1)
 
     def get_closest(self, x):
         label = self.train_label
