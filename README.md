@@ -3,6 +3,7 @@ This repo tries to implement some of the classic machine learning algorithms wit
 Performance is not optimized, made only for self learning and educational purposes.
 
 ## Supervised learning
+### [Linear Regression (Least Square Estimation)](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/LinearRegression.py) - Done
 ### Perceptron - Done
 ### Logistic Regression - Done
 ### K-Nearest-Neighbor - Done
