@@ -4,16 +4,16 @@ Performance is not optimized, made only for self learning and educational purpos
 
 ## Supervised learning
 ### [Linear Regression (Least Square Estimation)](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/LinearRegression.py) - Done
-### Perceptron - Done
-### Logistic Regression - Done
-### K-Nearest-Neighbor - Done
-### NaiveBayes - Done
-### DecisionTree - In Progress
+### [Perceptron](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/Perceptron.py) - Done
+### [Logistic Regression](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/LogisticRegression.py) - Done
+### [K-Nearest-Neighbor](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/KNN.py) - Done
+### [NaiveBayes] - Done
+### [DecisionTree](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/DecisionTree.py) - In Progress
 ### AdaBoost - ToDo
 ### SVM - ToDo
 
 ## Unsupervised learning
-### K-means - Done
-### PCA - In Progress
+### [K-means](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/K-means.py) - Done
+### [PCA](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/PCA.py) - In Progress
 ### Gaussian Mixture Model - ToDo
 
