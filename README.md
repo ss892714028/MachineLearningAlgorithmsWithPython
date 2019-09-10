@@ -16,6 +16,6 @@ Performance is not optimized, made only for self learning and educational purpos
 ## Unsupervised learning
 ### [Principal Component Analysis](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/PCA.py) - Done
 ### [K-means Clustering](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/K-means.py) - Done
-### Hierarchical Clustering - ToDo
+### [Hierarchical Clustering](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/HierarchicalClustering.py) - Done
 ### Gaussian Mixture Model - ToDo
 
