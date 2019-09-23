@@ -4,8 +4,7 @@ import time
 
 
 class DecisionTree:
-    def __init__(self, train, test, train_label, test_label,
-                 epsilon=0.1, continuous=True, discretize='binary', bins=5):
+    def __init__(self, train, test, train_label, test_label, epsilon=0.1, continuous=True, discretize = 'binary', bin=5):
         """
 
         :param train: training data
@@ -17,16 +16,14 @@ class DecisionTree:
         """
 
         self.max_value = np.max(np.array(train).flatten())
-        self.bin = bins
+        self.bin = bin
         if continuous:
-            print('Performing {} binning on data'.format(discretize))
-            if discretize == 'multi':
+            if discretize == 'multi_bin':
                 self.train = self.multi_class(np.array(train))
                 self.test = self.multi_class(np.array(test))
             if discretize == 'binary':
-                self.train = self.binarize(train)
-                self.test = self.binarize(test)
-                print(self.test[0])
+                self.train = self.multi_class(np.array(train))
+                self.test = self.multi_class(np.array(test))
         else:
             self.train = np.array(train)
             self.test = np.array(test)
@@ -35,12 +32,8 @@ class DecisionTree:
         self.c = sorted(list(set(self.train_label)))
         self.epsilon = epsilon
 
-    @staticmethod
-    def binarize(d):
+    def binarize(self):
         data = []
-        for i in d:
-            data.append([int(int(num) > 0) for num in i])
-        return data
 
     def multi_class(self, data):
         # Because Decision Tree is designed for discrete features,
@@ -111,6 +104,7 @@ class DecisionTree:
     @staticmethod
     def get_H_D(lst):
         """
+
         :param p: a list of probabilities
         :return: entropy H(D)
         """
@@ -170,13 +164,14 @@ class DecisionTree:
         return treeDict
 
     def predict(self, test, tree):
+        test = list(test)
         while True:
             (key, value), = tree.items()
             if type(tree[key]).__name__ == 'dict':
                 d = test[key]
                 del test[key]
                 tree = value[d]
-                if type(tree).__name__ == 'int32':
+                if 'int' in type(tree).__name__:
                     return tree
             else:
                 return value
@@ -195,8 +190,19 @@ if __name__ == '__main__':
     print('Loading data...')
     train_data, train_label = d.loadData(r'C:\Users\Stan\PycharmProjects\MachineLearningAlgorithms\Data\mnist_train.csv')
     test_data, test_label = d.loadData(r'C:\Users\Stan\PycharmProjects\MachineLearningAlgorithms\Data\mnist_test.csv')
+    tdata = []
+    tedata = []
+    # train_data,  train_label = train_data[0:1000], train_label[0:1000]
+    for i in train_data:
+        tdata.append([int(int(num) > 128) for num in i])
+    for j in test_data:
+        tedata.append([int(int(num) > 128) for num in i])
+    tdata = np.array(tdata)
+    tedata = np.array(tedata)
+    classifier = DecisionTree(tdata, tedata, train_label, test_label, bin=2, continuous=False)
+    # a, b = classifier.find_max_gain(classifier.train, classifier.train_label)
+    # print(a,b)
 
-    classifier = DecisionTree(train_data, test_data, train_label, test_label, continuous=True, discretize='binary')
     tree = classifier.build_tree((classifier.train, classifier.train_label))
     acc = classifier.acc(tree)
     print(acc)
