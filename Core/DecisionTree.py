@@ -194,9 +194,9 @@ if __name__ == '__main__':
     tedata = []
     # train_data,  train_label = train_data[0:1000], train_label[0:1000]
     for i in train_data:
-        tdata.append([int(int(num) > 128) for num in i])
+        tdata.append([int(int(num) > 1) for num in i])
     for j in test_data:
-        tedata.append([int(int(num) > 128) for num in i])
+        tedata.append([int(int(num) > 1) for num in i])
     tdata = np.array(tdata)
     tedata = np.array(tedata)
     classifier = DecisionTree(tdata, tedata, train_label, test_label, bin=2, continuous=False)

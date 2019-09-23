@@ -21,8 +21,8 @@ class LinearRegression:
         """
         self.train = np.array(train)
         self.test = np.array(test)
-        self.train_label = (np.array(train_label))
-        self.test_label = (np.array(test_label))
+        self.train_label = np.array(train_label)
+        self.test_label = np.array(test_label)
 
     @staticmethod
     def add_feature(d):
@@ -53,6 +53,7 @@ if __name__ == '__main__':
     # load dataset
     # use same parameter as https://towardsdatascience.com/linear-regression-on-boston-housing-dataset-f409b7e4a155
     # to compare result with sklearn's implementation
+
     boston_dataset = load_boston()
     boston = pd.DataFrame(boston_dataset.data, columns=boston_dataset.feature_names)
     X = pd.DataFrame(np.c_[boston['LSTAT'], boston['RM']], columns=['LSTAT', 'RM'])

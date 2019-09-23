@@ -2,6 +2,7 @@ import numpy as np
 import Data as d
 import time
 
+
 class Perceptron:
     def __init__(self, train, test, train_label, test_label, lr=0.001, epoch=200):
         """
