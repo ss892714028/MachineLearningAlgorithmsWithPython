@@ -4,7 +4,8 @@ import time
 
 
 class DecisionTree:
-    def __init__(self, train, test, train_label, test_label, epsilon=0.1, continuous=True, bin=5):
+    def __init__(self, train, test, train_label, test_label,
+                 epsilon=0.1, continuous=True, discretize='binary', bins=5):
         """
 
         :param train: training data
@@ -16,10 +17,16 @@ class DecisionTree:
         """
 
         self.max_value = np.max(np.array(train).flatten())
-        self.bin = bin
+        self.bin = bins
         if continuous:
-            self.train = self.pre_process(np.array(train))
-            self.test = self.pre_process(np.array(test))
+            print('Performing {} binning on data'.format(discretize))
+            if discretize == 'multi':
+                self.train = self.multi_class(np.array(train))
+                self.test = self.multi_class(np.array(test))
+            if discretize == 'binary':
+                self.train = self.binarize(train)
+                self.test = self.binarize(test)
+                print(self.test[0])
         else:
             self.train = np.array(train)
             self.test = np.array(test)
@@ -28,7 +35,14 @@ class DecisionTree:
         self.c = sorted(list(set(self.train_label)))
         self.epsilon = epsilon
 
-    def pre_process(self, data):
+    @staticmethod
+    def binarize(d):
+        data = []
+        for i in d:
+            data.append([int(int(num) > 0) for num in i])
+        return data
+
+    def multi_class(self, data):
         # Because Decision Tree is designed for discrete features,
         # if data is continuous, discretize it using pre_process method.
         dict = {}
@@ -84,42 +98,36 @@ class DecisionTree:
                 # create a set for l
                 temp_set = set(l)
                 p = []
-                for i in temp_set:
+                for value in temp_set:
                     # calculate p(Dik/Di)
                     # 'statistical learning method' page 74 formula 5.8
-                    p.append(l[l == i].size / l.size)
+                    p.append(len(l[l == value]) / len(l))
                 # store entropy for each classes(potential value of a feature)
-                sum_of_H_D.append((feature[feature == classes].size/feature.size) * self.get_H_D(p))
+                sum_of_H_D.append((len(feature[feature == classes])/len(feature)) * self.get_H_D(p))
             # sum total entropy for each feature
             H_D_A.append(np.sum(sum_of_H_D))
         return H_D, H_D_A
 
     @staticmethod
-    def get_H_D(p):
+    def get_H_D(lst):
         """
-
         :param p: a list of probabilities
         :return: entropy H(D)
         """
-        return -np.sum([i * np.log2(i) if i != 0 else 0 for i in p])
-
-    def calculate_information_gain(self, trainData, trainLabel):
-        H_D, H_D_A = self.calculate_entropy(trainData, trainLabel)
-        return [H_D-i for i in H_D_A]
+        return np.sum([-1 * p * np.log2(p) for p in lst])
 
     def find_max_gain(self, trainData, trainLabel):
-        temp = self.calculate_information_gain(trainData, trainLabel)
+        H_D, H_D_A = self.calculate_entropy(trainData, trainLabel)
         # return max information gain and max feature index
-        return temp.index(np.max(temp)), np.max(temp)
+        return H_D_A.index(np.min(H_D_A)), H_D - np.min(H_D_A)
 
     @staticmethod
     def trim_data(data, label, index, value):
         new_data = []
         new_label = []
-        print(np.array(data).shape)
         for i in range(len(data)):
             if data[i][index] == value:
-                new_data.append(data[i][0:index] + data[i][index+1:])
+                new_data.append(np.hstack([data[i][0:index], data[i][index+1:]]))
                 new_label.append(label[i])
         return new_data, new_label
 
@@ -131,28 +139,54 @@ class DecisionTree:
                 classDict[i] += 1
             else:
                 classDict[i] = 1
-        return classDict
+        max_class = max(classDict, key=classDict.get)
 
+        return max_class
+
+    # recursive tree
     def build_tree(self, *data):
         trainData = np.array(data[0][0])
         trainLabel = np.array(data[0][1])
-        print(trainData.shape)
 
         classDict = {i for i in trainLabel}
+
         if len(classDict) == 1:
             return trainLabel[0]
-        if len(trainData[0]) == 0:
+        if len(trainData) == 0:
             return self.find_class(trainLabel)
         print('build node', len(trainData[0]), len(trainLabel))
         A, e = self.find_max_gain(trainData, trainLabel)
-        print(A)
+
+        print('feature selected: {}'.format(A))
+        print('information gain: {}'.format(e))
+
         if e < self.epsilon:
             return self.find_class(trainLabel)
-        treeDict = {A:{}}
-        treeDict[A][0] = self.build_tree(self.trim_data(list(trainData),list(trainLabel), A, 0))
-        treeDict[A][1] = self.build_tree(self.trim_data(list(trainData),list(trainLabel), A, 1))
 
+        treeDict = {A:{}}
+        # for each discrete value,
+        for i in range(self.bin):
+            treeDict[A][i] = self.build_tree(self.trim_data(trainData, trainLabel, A, i))
         return treeDict
+
+    def predict(self, test, tree):
+        while True:
+            (key, value), = tree.items()
+            if type(tree[key]).__name__ == 'dict':
+                d = test[key]
+                del test[key]
+                tree = value[d]
+                if type(tree).__name__ == 'int32':
+                    return tree
+            else:
+                return value
+
+    def acc(self, tree):
+        err = 0
+        for i in range(len(self.test)):
+            if self.test_label[i] != self.predict(self.test[i], tree):
+                err += 1
+        return 1-err/len(self.test)
 
 
 if __name__ == '__main__':
@@ -161,9 +195,9 @@ if __name__ == '__main__':
     print('Loading data...')
     train_data, train_label = d.loadData(r'C:\Users\Stan\PycharmProjects\MachineLearningAlgorithms\Data\mnist_train.csv')
     test_data, test_label = d.loadData(r'C:\Users\Stan\PycharmProjects\MachineLearningAlgorithms\Data\mnist_test.csv')
-    data = []
-    for i in train_data:
-        data.append([int(int(num) > 128) for num in i])
-    classifier = DecisionTree(data,test_data,train_label,test_label,bin=2,continuous=False)
-    classifier.build_tree((train_data, train_label))
+
+    classifier = DecisionTree(train_data, test_data, train_label, test_label, continuous=True, discretize='binary')
+    tree = classifier.build_tree((classifier.train, classifier.train_label))
+    acc = classifier.acc(tree)
+    print(acc)
     print('time ultilized: {}'.format(time.time()-t))
