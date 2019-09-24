@@ -4,7 +4,7 @@ import time
 
 
 class KNN:
-    def __init__(self, train, test, train_label, test_label, test_size = 200, k = 25):
+    def __init__(self, train, test, train_label, test_label, test_size = 1000, k = 25):
         self.train = np.array(train)
         self.test = np.array(test)
         self.train_label = np.array(train_label)
@@ -55,6 +55,6 @@ if __name__ == '__main__':
     train_data, train_label = d.loadData(r'C:\Users\Stan\PycharmProjects\MachineLearningAlgorithms\Data\mnist_train.csv')
     test_data, test_label = d.loadData(r'C:\Users\Stan\PycharmProjects\MachineLearningAlgorithms\Data\mnist_test.csv')
 
-    classifier = KNN(train_data,test_data,train_label,test_label)
+    classifier = KNN(train_data, test_data, train_label, test_label)
     classifier.predict()
     print('time ultilized: {}'.format(time.time()-t))
