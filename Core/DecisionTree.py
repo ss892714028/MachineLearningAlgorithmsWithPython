@@ -4,7 +4,7 @@ import time
 
 
 class DecisionTree:
-    def __init__(self, train, test, train_label, test_label, epsilon=0.1, continuous=True, discretize = 'binary', bin=5):
+    def __init__(self, train, test, train_label, test_label, epsilon=0.1, continuous=True, discretize = 'binary', bin=2):
         """
 
         :param train: training data
@@ -22,8 +22,8 @@ class DecisionTree:
                 self.train = self.multi_class(np.array(train))
                 self.test = self.multi_class(np.array(test))
             if discretize == 'binary':
-                self.train = self.multi_class(np.array(train))
-                self.test = self.multi_class(np.array(test))
+                self.train = self.binarize(train)
+                self.test = self.binarize(test)
         else:
             self.train = np.array(train)
             self.test = np.array(test)
@@ -32,8 +32,11 @@ class DecisionTree:
         self.c = sorted(list(set(self.train_label)))
         self.epsilon = epsilon
 
-    def binarize(self):
+    def binarize(self, d):
         data = []
+        for sample in d:
+            data.append([int(int(num) > 1) for num in sample])
+        return np.array(data)
 
     def multi_class(self, data):
         # Because Decision Tree is designed for discrete features,
@@ -157,7 +160,7 @@ class DecisionTree:
         if e < self.epsilon:
             return self.find_class(trainLabel)
 
-        treeDict = {A:{}}
+        treeDict = {A: {}}
         # for each discrete value,
         for i in range(self.bin):
             treeDict[A][i] = self.build_tree(self.trim_data(trainData, trainLabel, A, i))
@@ -171,7 +174,7 @@ class DecisionTree:
                 d = test[key]
                 del test[key]
                 tree = value[d]
-                if 'int' in type(tree).__name__:
+                if type(tree).__name__ == 'int32':
                     return tree
             else:
                 return value
@@ -188,18 +191,9 @@ if __name__ == '__main__':
     t = time.time()
 
     print('Loading data...')
-    train_data, train_label = d.loadData(r'C:\Users\Stan\PycharmProjects\MachineLearningAlgorithms\Data\mnist_train.csv')
-    test_data, test_label = d.loadData(r'C:\Users\Stan\PycharmProjects\MachineLearningAlgorithms\Data\mnist_test.csv')
-    tdata = []
-    tedata = []
-    # train_data,  train_label = train_data[0:1000], train_label[0:1000]
-    for i in train_data:
-        tdata.append([int(int(num) > 1) for num in i])
-    for j in test_data:
-        tedata.append([int(int(num) > 1) for num in i])
-    tdata = np.array(tdata)
-    tedata = np.array(tedata)
-    classifier = DecisionTree(tdata, tedata, train_label, test_label, bin=2, continuous=False)
+    train_data, train_label = d.loadData(r'..\Data\mnist_train.csv')
+    test_data, test_label = d.loadData(r'..\Data\mnist_test.csv')
+    classifier = DecisionTree(train_data, test_data, train_label, test_label)
     # a, b = classifier.find_max_gain(classifier.train, classifier.train_label)
     # print(a,b)
 
