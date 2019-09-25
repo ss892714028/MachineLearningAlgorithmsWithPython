@@ -5,8 +5,9 @@ Performance is not optimized, made only for self learning and educational purpos
 <br />
 Documentation with intuation, math formulation and necessary proofs are being made by the repo owner, will be ready to view shortly. <br />
 ## Required Packages
-### [Numpy](https://numpy.org/): Fundamental package for scientific computing with Python
+### [Numpy](https://numpy.org/): Fundamental package for scientific computing with Python <br />
 <br />
+
 ## Supervised learning
 ### [Linear Regression - Least Square Estimation](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/LinearRegression.py) - Done
 ### [Perceptron](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/Perceptron.py) - Done
@@ -17,6 +18,8 @@ Documentation with intuation, math formulation and necessary proofs are being ma
 ### DecisionTree-Pruning - ToDo
 ### SVM - ToDo
 ### AdaBoost - ToDo <br />
+<br />
+
 ## Unsupervised learning
 ### [Principal Component Analysis](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/PCA.py) - Done
 ### [K-means Clustering](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/K-means.py) - Done
