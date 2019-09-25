@@ -1,9 +1,12 @@
 # MachineLearningAlgorithms
 This repo tries to implement some of the traditional machine learning algorithms with helps from other machine learning experts and their repos. <br />
-The algorithms are tested with MNIST dataset, to download: [MNIST handwritten digital database](http://yann.lecun.com/exdb/mnist/) <br />
+The algorithms are tested with the MNIST dataset, to download: [MNIST handwritten digital database](http://yann.lecun.com/exdb/mnist/) <br />
 Performance is not optimized, made only for self learning and educational purposes. <br />
 <br />
 Documentation with intuation, math formulation and necessary proofs are being made by the repo owner, will be ready to view shortly. <br />
+## Required Packages
+[Numpy]https://numpy.org/
+<br />
 ## Supervised learning
 ### [Linear Regression - Least Square Estimation](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/LinearRegression.py) - Done
 ### [Perceptron](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/Perceptron.py) - Done
@@ -14,8 +17,7 @@ Documentation with intuation, math formulation and necessary proofs are being ma
 ### DecisionTree-Pruning - ToDo
 ### SVM - ToDo
 ### AdaBoost - ToDo
-
-
+<br />
 ## Unsupervised learning
 ### [Principal Component Analysis](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/PCA.py) - Done
 ### [K-means Clustering](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/K-means.py) - Done
