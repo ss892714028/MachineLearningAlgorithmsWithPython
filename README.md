@@ -10,6 +10,7 @@ Documentation with intuation, math formulation and necessary proofs are being ma
 
 ## Supervised learning
 ### [Linear Regression - Least Square Estimation](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/LinearRegression.py) - Done
+### [Stepwise Regression](https://htmlpreview.github.io/?https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/Stepwise_regression/Stepwise_regression.html) - Done
 ### [Perceptron](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/Perceptron.py) - Done
 ### [Logistic Regression](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/LogisticRegression.py) - Done
 ### [K-Nearest-Neighbor](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/KNN.py) - Done
