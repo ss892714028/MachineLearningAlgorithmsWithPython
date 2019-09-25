@@ -1,5 +1,6 @@
 # MachineLearningAlgorithms
-This repo tries to implement some of the classic machine learning algorithms with helps from other machine learning experts and their repos.
+This repo tries to implement some of the traditional machine learning algorithms with helps from other machine learning experts and their repos. <br />
+The algorithms are tested with MNIST dataset, to download: [MNIST handwritten digital database](http://yann.lecun.com/exdb/mnist/) <br />
 Performance is not optimized, made only for self learning and educational purposes. <br />
 <br />
 Documentation with intuation, math formulation and necessary proofs are being made by the repo owner, will be ready to view shortly. <br />
