@@ -5,7 +5,7 @@ Performance is not optimized, made only for self learning and educational purpos
 <br />
 Documentation with intuation, math formulation and necessary proofs are being made by the repo owner, will be ready to view shortly. <br />
 ## Required Packages
-[Numpy]https://numpy.org/
+### [Numpy](https://numpy.org/): Fundamental package for scientific computing with Python
 <br />
 ## Supervised learning
 ### [Linear Regression - Least Square Estimation](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/LinearRegression.py) - Done
@@ -16,8 +16,7 @@ Documentation with intuation, math formulation and necessary proofs are being ma
 ### [DecisionTree-ID3](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/DecisionTree.py) - Done
 ### DecisionTree-Pruning - ToDo
 ### SVM - ToDo
-### AdaBoost - ToDo
-<br />
+### AdaBoost - ToDo <br />
 ## Unsupervised learning
 ### [Principal Component Analysis](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/PCA.py) - Done
 ### [K-means Clustering](https://github.com/ss892714028/MachineLearningAlgorithmsWithPython/blob/master/Core/K-means.py) - Done
