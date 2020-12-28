@@ -53,6 +53,7 @@ class PCA:
 
 if __name__ == '__main__':
     test_data, test_label = d.loadData(r'C:\Users\Stan\PycharmProjects\MachineLearningAlgorithms\Data\mnist_test.csv')
-    reduce = PCA(test_data, 0.9)
+    reduce = PCA(test_data, 0.98)
     z = reduce.pca()
     print(z.shape)
+    print(z[[1,2,3], :])

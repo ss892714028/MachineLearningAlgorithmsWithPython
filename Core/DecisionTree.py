@@ -193,9 +193,7 @@ if __name__ == '__main__':
     print('Loading data...')
     train_data, train_label = d.loadData(r'..\Data\mnist_train.csv')
     test_data, test_label = d.loadData(r'..\Data\mnist_test.csv')
-    classifier = DecisionTree(train_data, test_data, train_label, test_label)
-    # a, b = classifier.find_max_gain(classifier.train, classifier.train_label)
-    # print(a,b)
+    classifier = DecisionTree(train_data, test_data, train_label, test_label, bin=4, continuous=True, discretize='multi_bin')
 
     tree = classifier.build_tree((classifier.train, classifier.train_label))
     acc = classifier.acc(tree)
