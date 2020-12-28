@@ -72,9 +72,8 @@ class Perceptron:
 
 
 if __name__ == '__main__':
-    train_data, train_label = d.loadData(
-        r'C:\Users\Stan\PycharmProjects\MachineLearningAlgorithms\Data\mnist_train.csv')
-    test_data, test_label = d.loadData(r'C:\Users\Stan\PycharmProjects\MachineLearningAlgorithms\Data\mnist_test.csv')
+    train_data, train_label = d.loadData('../Data/mnist_train.csv')
+    test_data, test_label = d.loadData('../Data/mnist_test.csv')
     t = time.time()
     classifier = Perceptron(train_data, test_data, train_label, test_label)
     classifier.testing()
