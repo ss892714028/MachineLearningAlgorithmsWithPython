@@ -51,7 +51,7 @@ class DecisionTree:
         # same as for index in range(data.flatten())
         dimension = data.shape[0]
         for index, sample in enumerate(data):
-            if index%1000 == 999:
+            if index % 1000 == 999:
                 print('Pre-processing data sample {}: out of {}'.format(index, dimension))
             temp = []
             for value in sample:
